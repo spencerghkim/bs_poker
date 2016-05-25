@@ -33,10 +33,10 @@ int main(int argc, char** argv) {
 	const int num_rounds_k = atoi(argv[2]);
 	const bool print_hands = false;
 
-	if(hand_size_k < 5){
-		cerr << "Error: Hand size must be at least 5\n";
-		exit(0);	
-	}
+	// if(hand_size_k < 5){
+	// 	cerr << "Error: Hand size must be at least 5\n";
+	// 	exit(0);	
+	// }
 
 	// generate 52 card deck
 	vector<Card> deck;
@@ -77,6 +77,7 @@ int main(int argc, char** argv) {
 		// capture # of wildcards, and remove it from hand counts
 		int num_wilds = hand_counts[0];
 		hand_counts.erase(0);
+		suit_counts.erase(4);
 
 
 		// TODO: remove copy pasta code
@@ -145,11 +146,13 @@ int main(int argc, char** argv) {
 		for(auto pair : suit_counts) {
 			if(pair.second + num_wilds >= 5){
 				counts["4. Flush"]++;
+				// print_hand(hand, "flush");
 				break;
 			}
 		}
 
 		// full house
+	if(hand_size_k >= 5){
 		if(num_wilds == 0) {
 			bool triple_found = false, pair_found = false;
 			for(auto pair : hand_counts) {
@@ -161,7 +164,7 @@ int main(int argc, char** argv) {
 						triple_found = true;
 					}
 				}
-				if(pair.second >= 2) {
+				else if(pair.second >= 2) {
 					if(triple_found) {
 						counts["5. Full House"]++;
 						break;
@@ -178,7 +181,7 @@ int main(int argc, char** argv) {
 					counts["5. Full House"]++;
 					break;
 				}
-				if(pair.second >= 2) {
+				else if(pair.second >= 2) {
 					if(pair_found) {
 						counts["5. Full House"]++;
 						break;
@@ -199,6 +202,7 @@ int main(int argc, char** argv) {
 			// can make full house with any hand
 			counts["5. Full House"]++;
 		}
+	}
 
 		// straight
 		for(int low_card = 1, high_card = 5; high_card <= 12; low_card++, high_card++){
