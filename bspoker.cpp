@@ -67,21 +67,21 @@ int main(int argc, char** argv) {
 
 		if(print_hands) print_hand(hand, "Hand");
 
-		// counts used for pair, trip, full house, etc
+		// counts used for pair, trip, full house, flush, etc. 
 		unordered_map<int, int> hand_counts; 
+		unordered_map<int, int> suit_counts; 
 		for(auto card : hand){
 			hand_counts[card.num]++;
+			suit_counts[card.suit]++;
 		}
+		// capture # of wildcards, and remove it from hand counts
+		int num_wilds = hand_counts[0];
+		hand_counts.erase(0);
+
 
 		// TODO: remove copy pasta code
 
-		// counts used for flush
-		unordered_map<int, int> suit_counts; 
-		for(auto card : hand){
-			suit_counts[card.suit]++;
-		}
-
-		int num_wilds = hand_counts[0];
+		
 
 		// pair
 		for(auto pair : hand_counts) {
@@ -127,6 +127,8 @@ int main(int argc, char** argv) {
 		for(auto pair : hand_counts) {
 			if(pair.second + num_wilds >= 7){
 				counts["9b. Seven of a kind"]++;
+				// TODO: make this debug output
+				// print_hand(hand, "7kind");
 				break;
 			}
 		}
@@ -186,9 +188,9 @@ int main(int argc, char** argv) {
 				}
 			}
 		} else if (num_wilds == 2) {
-			// check for pair, skip pair of wild
+			// check for pair
 			for(auto pair : hand_counts) {
-				if(pair.first != 0 && pair.second >= 2){ 
+				if(pair.second >= 2){ 
 					counts["5. Full House"]++;
 					break;
 				}
