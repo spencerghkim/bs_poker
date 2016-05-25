@@ -1,5 +1,5 @@
 # bs_poker
-quick hack for the bs_poker game
+quick hack to determine approximate probabilities for the bs_poker game
 
 Usage: 
 - compile with "make"
